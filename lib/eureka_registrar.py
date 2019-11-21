@@ -105,13 +105,13 @@ def get_access_token(credentials):
 
 def start_registrar(service, appinfo):
 	if log_level > 1:
-		print "start service-registrar:"
+		print ("start service-registrar:")
 		print json.dumps(service, sys.stderr, indent=4)
 		print json.dumps(appinfo, sys.stderr, indent=4)
 	credentials = service.get('credentials', {})
 	access_token = get_access_token(credentials)
 	uri = credentials.get('uri')
-	if uri is None:
+	if uri is None
 		print >> sys.stderr, "services of type service-registry must specify a uri"
 		return
 	base_uri = uri + "/eureka"
@@ -134,7 +134,7 @@ def start_registrar(service, appinfo):
 def list_registered_apps(service):
 	uri = service['base_uri'] + '/apps'
 	if log_level > 1:
-		print "GET", uri
+		print ("GET", uri)
 	req = urllib2.Request(uri)
 	req.add_header('Authorization', service['access_token'])
 	req.add_header('Accept', 'application/json')
@@ -144,7 +144,7 @@ def list_registered_apps(service):
 def send_heartbeat(service, appinfo):
 	uri = service['instance_uri']
 	if log_level > 1:
-		print "PUT", uri
+		print ("PUT", uri)
 	req = urllib2.Request(uri)
 	req.add_header('Authorization', service['access_token'])
 	req.add_header('Content-Length', 0)
@@ -181,7 +181,7 @@ def register_service(service, appinfo):
 		}
 	}
 	if log_level > 1:
-		print "POST", uri
+		print ("POST", uri)
 		print json.dumps(data, indent=4)
 	req = urllib2.Request(uri)
 	req.add_header('Authorization', service['access_token'])
@@ -198,7 +198,7 @@ def register_service(service, appinfo):
 
 			raise
 	if log_level > 1:
-		print 'Successfully registered service'
+		print ('Successfully registered service')
 
 if __name__ == "__main__":
 	main()
