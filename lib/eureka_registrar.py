@@ -95,7 +95,7 @@ def get_access_token(credentials):
 	access_token_uri = credentials.get('access_token_uri')
 	if access_token_uri is None:
 		return None
-	req = urllib.Request(access_token_uri)
+	req = urllib.request(access_token_uri)
 	req.add_header('Authorization', 'Basic ' + base64.b64encode(client_id + ":" + client_secret))
 	body = "grant_type=client_credentials"
 	response = json.load(urllib.urlopen(req, data=body, **urlargs))
@@ -135,7 +135,7 @@ def list_registered_apps(service):
 	uri = service['base_uri'] + '/apps'
 	if log_level > 1:
 		print ("GET", uri)
-	req = urllib.Request(uri)
+	req = urllib.request(uri)
 	req.add_header('Authorization', service['access_token'])
 	req.add_header('Accept', 'application/json')
 	registrations = json.load(urllib.urlopen(req, **urlargs))
@@ -145,7 +145,7 @@ def send_heartbeat(service, appinfo):
 	uri = service['instance_uri']
 	if log_level > 1:
 		print ("PUT", uri)
-	req = urllib.Request(uri)
+	req = urllib.request(uri)
 	req.add_header('Authorization', service['access_token'])
 	req.add_header('Content-Length', 0)
 	req.get_method = lambda : "PUT"
@@ -183,7 +183,7 @@ def register_service(service, appinfo):
 	if log_level > 1:
 		print ("POST", uri)
 		print (json.dumps(data, indent=4))
-	req = urllib.Request(uri)
+	req = urllib.request(uri)
 	req.add_header('Authorization', service['access_token'])
 	req.add_header('Content-Type', 'application/json')
 	req.get_method = lambda : "POST"
