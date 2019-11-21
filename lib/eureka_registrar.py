@@ -18,7 +18,7 @@ import os
 import re
 import sys
 import json
-import urllib2
+import urllib 
 import base64
 import ssl
 import time
@@ -95,10 +95,10 @@ def get_access_token(credentials):
 	access_token_uri = credentials.get('access_token_uri')
 	if access_token_uri is None:
 		return None
-	req = urllib2.Request(access_token_uri)
+	req = urllib.Request(access_token_uri)
 	req.add_header('Authorization', 'Basic ' + base64.b64encode(client_id + ":" + client_secret))
 	body = "grant_type=client_credentials"
-	response = json.load(urllib2.urlopen(req, data=body, **urlargs))
+	response = json.load(urllib.urlopen(req, data=body, **urlargs))
 	access_token = response.get('access_token')
 	token_type = response.get('token_type')
 	return token_type + " " + access_token
@@ -135,23 +135,23 @@ def list_registered_apps(service):
 	uri = service['base_uri'] + '/apps'
 	if log_level > 1:
 		print ("GET", uri)
-	req = urllib2.Request(uri)
+	req = urllib.Request(uri)
 	req.add_header('Authorization', service['access_token'])
 	req.add_header('Accept', 'application/json')
-	registrations = json.load(urllib2.urlopen(req, **urlargs))
+	registrations = json.load(urllib.urlopen(req, **urlargs))
 	print (json.dumps(registrations, indent=4))
 
 def send_heartbeat(service, appinfo):
 	uri = service['instance_uri']
 	if log_level > 1:
 		print ("PUT", uri)
-	req = urllib2.Request(uri)
+	req = urllib.Request(uri)
 	req.add_header('Authorization', service['access_token'])
 	req.add_header('Content-Length', 0)
 	req.get_method = lambda : "PUT"
 	try:
-		urllib2.urlopen(req)
-	except urllib2.HTTPError as e:
+		urllib.urlopen(req)
+	except urllib.HTTPError as e:
 		if e.code == 404:
 			register_service(service, appinfo)
 		else:
@@ -183,13 +183,13 @@ def register_service(service, appinfo):
 	if log_level > 1:
 		print ("POST", uri)
 		print (json.dumps(data, indent=4))
-	req = urllib2.Request(uri)
+	req = urllib.Request(uri)
 	req.add_header('Authorization', service['access_token'])
 	req.add_header('Content-Type', 'application/json')
 	req.get_method = lambda : "POST"
 	try:
-		urllib2.urlopen(req, data=json.dumps(data), **urlargs)
-	except urllib2.HTTPError as e:
+		urllib.urlopen(req, data=json.dumps(data), **urlargs)
+	except urllib.HTTPError as e:
 		if e.code != 204:
 			print >> sys.stderr, json.dumps(data, indent=4)
 			print >> sys.stderr, e.code
