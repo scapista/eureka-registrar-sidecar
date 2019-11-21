@@ -18,7 +18,7 @@ import os
 import re
 import sys
 import json
-import urllib2
+import urllib
 import base64
 import ssl
 import time
