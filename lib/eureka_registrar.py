@@ -45,7 +45,7 @@ def detect():
 	service = find_eureka_service(appinfo)
 	if service == None:
 		sys.exit(1)
-	print 'eureka-registrar'
+	print ('eureka-registrar')
 
 vcap_config = None
 log_level = 1
