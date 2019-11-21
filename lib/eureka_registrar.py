@@ -106,8 +106,8 @@ def get_access_token(credentials):
 def start_registrar(service, appinfo):
 	if log_level > 1:
 		print ("start service-registrar:")
-		print json.dumps(service, sys.stderr, indent=4)
-		print json.dumps(appinfo, sys.stderr, indent=4)
+		print (json.dumps(service, sys.stderr, indent=4))
+		print (json.dumps(appinfo, sys.stderr, indent=4))
 	credentials = service.get('credentials', {})
 	access_token = get_access_token(credentials)
 	uri = credentials.get('uri')
@@ -139,7 +139,7 @@ def list_registered_apps(service):
 	req.add_header('Authorization', service['access_token'])
 	req.add_header('Accept', 'application/json')
 	registrations = json.load(urllib2.urlopen(req, **urlargs))
-	print json.dumps(registrations, indent=4)
+	print (json.dumps(registrations, indent=4))
 
 def send_heartbeat(service, appinfo):
 	uri = service['instance_uri']
@@ -182,7 +182,7 @@ def register_service(service, appinfo):
 	}
 	if log_level > 1:
 		print ("POST", uri)
-		print json.dumps(data, indent=4)
+		print (json.dumps(data, indent=4))
 	req = urllib2.Request(uri)
 	req.add_header('Authorization', service['access_token'])
 	req.add_header('Content-Type', 'application/json')
